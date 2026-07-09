@@ -1,4 +1,5 @@
 import ScheduleCard from "./ScheduleCard";
+import { festDays, addresses } from "@/lib/constants";
 
 type EventInfo = {
 	day: number;
@@ -44,53 +45,63 @@ export default function VenueCardContainer({
 
 	console.log("daily schedules: ", dailySchedulesSorted);
 
-	const days = [
-		"Friday, October 23rd",
-		"Saturday, October 24th",
-		"Sunday, October 25th",
-	];
+	const venueAddress = addresses[venue];
 
 	return (
 		<div className="flex flex-col items-center gap-y-5 mt-5">
 			<h2 className="text-white text-5xl uppercase tracking-wider font-display">
 				{venue}
 			</h2>
+			<a
+				className="text-white text-lg text-center uppercase underline"
+				href={`https://www.google.com/maps/place/${venueAddress}`}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				{venueAddress}
+			</a>
 			<div className="flex flex-col xl:flex-row gap-6">
-				{dailySchedulesSorted.map((day, i) => (
-					<ScheduleCard title={days[i]}>
-						<ul>
-							{day.map((event) => (
-								<li className="grid grid-cols-2 gap-12 mb-1">
-									<span className="text-end italic font-light">
-										{event.end_string
-											? `${event.start_string} - ${event.end_string}`
-											: event.start_string}
-									</span>
-									{event.performer_url && event.memo ? (
-										<div>
+				{dailySchedulesSorted.map((day) => {
+					const dayNum = day[0].day;
+					return (
+						<ScheduleCard title={festDays[dayNum - 1]}>
+							<ul>
+								{day.map((event) => (
+									<li
+										className="grid grid-cols-2 gap-12 mb-1"
+										key={event.event_id}
+									>
+										<span className="text-end italic font-light">
+											{event.end_string
+												? `${event.start_string} - ${event.end_string}`
+												: event.start_string}
+										</span>
+										{event.performer_url && event.memo ? (
+											<div>
+												<a
+													href={event.performer_url}
+													className="font-semibold underline"
+												>
+													{event.performer}
+												</a>{" "}
+												<span>({event.memo})</span>
+											</div>
+										) : event.performer_url ? (
 											<a
 												href={event.performer_url}
 												className="font-semibold underline"
 											>
 												{event.performer}
-											</a>{" "}
-											<span>({event.memo})</span>
-										</div>
-									) : event.performer_url ? (
-										<a
-											href={event.performer_url}
-											className="font-semibold underline"
-										>
-											{event.performer}
-										</a>
-									) : (
-										<span>{event.memo}</span>
-									)}
-								</li>
-							))}
-						</ul>
-					</ScheduleCard>
-				))}
+											</a>
+										) : (
+											<span>{event.memo}</span>
+										)}
+									</li>
+								))}
+							</ul>
+						</ScheduleCard>
+					);
+				})}
 			</div>
 		</div>
 	);

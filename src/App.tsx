@@ -1,6 +1,6 @@
 import { useState } from "react";
 import schedule from "@/data/events.json";
-import VenueCardContainer from "./components/VenueCardContainer";
+import VenueCardContainer from "@/components/VenueCardContainer";
 
 function App() {
 	const eventsByVenue = new Map();
@@ -11,12 +11,12 @@ function App() {
 		eventsByVenue.get(event.venue_name).add({ ...event });
 	}
 
+	console.log("events by venue: ", eventsByVenue);
+
 	const sortedVenueList = Array.from(eventsByVenue.keys()).sort();
 
 	const [venueShown, setVenueShown] = useState(sortedVenueList[1]);
 	const venueSchedule = eventsByVenue.get(venueShown);
-
-	//TODO: decrease select width to prevent horizontal overflow on small devices
 
 	return (
 		<main className="flex flex-col py-16 px-10 items-center bg-black min-h-screen gap-y-2">
@@ -24,14 +24,14 @@ function App() {
 				the fest 24 schedule
 			</h1>
 
-			<label htmlFor="venue-select" className="text-white mt-4">
+			<label htmlFor="venue-select" className="text-white mt-4 uppercase">
 				View by venue
 			</label>
 			<select
 				value={venueShown}
 				onChange={(e) => setVenueShown(e.target.value)}
 				id="venue-select"
-				className="bg-white rounded-sm"
+				className="bg-white rounded-sm w-80 truncate"
 			>
 				{sortedVenueList.map((venue) => (
 					<option value={venue} key={venue}>
