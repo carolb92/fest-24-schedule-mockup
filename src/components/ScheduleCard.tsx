@@ -18,9 +18,9 @@ export default function ScheduleCard({
 	footerContent,
 }: ScheduleCardProps) {
 	return (
-		<Card className="bg-gray-200 h-full w-88 sm:w-100 lg:w-110">
-			<CardHeader>
-				<CardTitle className="uppercase tracking-wider text-3xl text-center border-b border-gray-400 font-display pb-2">
+		<Card className="bg-gray-200 h-full w-88 sm:w-100 lg:w-110 pt-0">
+			<CardHeader className="bg-gray-300 py-5">
+				<CardTitle className="uppercase tracking-wider text-3xl text-center font-display">
 					{title}
 				</CardTitle>
 			</CardHeader>

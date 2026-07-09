@@ -35,11 +35,11 @@ export default function VenueCardContainer({
 	}
 
 	// sort each day desc by start time
-	const dailySchedulesSorted: EventInfo[][] = [];
-	scheduleByDay.forEach((day) =>
-		dailySchedulesSorted.push(
-			Array.from(day).sort((a, b) => b.start_time - a.start_time),
-		),
+	const dailySchedulesSorted = Array.from(scheduleByDay.entries()).map(
+		([dayNum, events]): [number, EventInfo[]] => [
+			dayNum,
+			Array.from(events).sort((a, b) => b.start_time - a.start_time),
+		],
 	);
 
 	const venueAddress = addresses[venue];
@@ -51,17 +51,16 @@ export default function VenueCardContainer({
 			</h2>
 			<a
 				className="text-white text-lg text-center uppercase underline"
-				href={`https://www.google.com/maps/place/${venueAddress}`}
+				href={`https://www.google.com/maps/place/${encodeURIComponent(venueAddress)}`}
 				target="_blank"
 				rel="noopener noreferrer"
 			>
 				{venueAddress}
 			</a>
 			<div className="flex flex-col xl:flex-row gap-6">
-				{dailySchedulesSorted.map((day, i) => {
-					const dayNum = day[0].day;
+				{dailySchedulesSorted.map(([dayNum, day]) => {
 					return (
-						<ScheduleCard title={festDays[dayNum - 1]} key={i}>
+						<ScheduleCard title={festDays[dayNum - 1]} key={dayNum}>
 							<ul>
 								{day.map((event) => (
 									<li
