@@ -31,9 +31,8 @@ export default function VenueCardContainer({
 		if (!scheduleByDay.has(event.day)) {
 			scheduleByDay.set(event.day, new Set<EventInfo>());
 		}
-		scheduleByDay.get(event.day)!.add({ ...event });
+		scheduleByDay.get(event.day)!.add(event);
 	}
-	console.log("schedule by day: ", scheduleByDay);
 
 	// sort each day desc by start time
 	const dailySchedulesSorted: EventInfo[][] = [];
@@ -42,8 +41,6 @@ export default function VenueCardContainer({
 			Array.from(day).sort((a, b) => b.start_time - a.start_time),
 		),
 	);
-
-	console.log("daily schedules: ", dailySchedulesSorted);
 
 	const venueAddress = addresses[venue];
 
@@ -61,10 +58,10 @@ export default function VenueCardContainer({
 				{venueAddress}
 			</a>
 			<div className="flex flex-col xl:flex-row gap-6">
-				{dailySchedulesSorted.map((day) => {
+				{dailySchedulesSorted.map((day, i) => {
 					const dayNum = day[0].day;
 					return (
-						<ScheduleCard title={festDays[dayNum - 1]}>
+						<ScheduleCard title={festDays[dayNum - 1]} key={i}>
 							<ul>
 								{day.map((event) => (
 									<li

@@ -4,14 +4,11 @@ import VenueCardContainer from "@/components/VenueCardContainer";
 
 function App() {
 	const eventsByVenue = new Map();
-
 	for (const event of schedule) {
 		if (!eventsByVenue.has(event.venue_name))
 			eventsByVenue.set(event.venue_name, new Set());
-		eventsByVenue.get(event.venue_name).add({ ...event });
+		eventsByVenue.get(event.venue_name).add(event);
 	}
-
-	console.log("events by venue: ", eventsByVenue);
 
 	const sortedVenueList = Array.from(eventsByVenue.keys()).sort();
 
