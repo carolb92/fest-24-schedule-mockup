@@ -1,4 +1,5 @@
 import ScheduleCard from "./ScheduleCard";
+import EventList from "./EventList";
 import { festDays, addresses } from "@/lib/constants";
 
 export type EventInfo = {
@@ -61,40 +62,7 @@ export default function VenueCardContainer({
 				{dailySchedulesSorted.map(([dayNum, day]) => {
 					return (
 						<ScheduleCard title={festDays[dayNum]} key={dayNum}>
-							<ul>
-								{day.map((event) => (
-									<li
-										className="grid grid-cols-2 gap-12 mb-1"
-										key={event.event_id}
-									>
-										<span className="text-end italic font-light">
-											{event.end_string
-												? `${event.start_string} - ${event.end_string}`
-												: event.start_string}
-										</span>
-										{event.performer_url && event.memo ? (
-											<div>
-												<a
-													href={event.performer_url}
-													className="font-semibold underline"
-												>
-													{event.performer}
-												</a>{" "}
-												<span>({event.memo})</span>
-											</div>
-										) : event.performer_url ? (
-											<a
-												href={event.performer_url}
-												className="font-semibold underline"
-											>
-												{event.performer}
-											</a>
-										) : (
-											<span>{event.memo}</span>
-										)}
-									</li>
-								))}
-							</ul>
+							<EventList events={day} />
 						</ScheduleCard>
 					);
 				})}

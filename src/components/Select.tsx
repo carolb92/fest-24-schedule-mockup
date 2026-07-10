@@ -17,7 +17,7 @@ export default function Select({
 		<div className="flex flex-col">
 			<label
 				htmlFor={htmlForId}
-				className="text-teal-600 mt-4 uppercase font-headline font-semibold"
+				className="text-teal-600 mt-4 mb-1 uppercase font-headline font-semibold"
 			>
 				{labelText}
 			</label>
