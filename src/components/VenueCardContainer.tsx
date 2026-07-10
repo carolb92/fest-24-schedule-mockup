@@ -1,7 +1,7 @@
 import ScheduleCard from "./ScheduleCard";
 import { festDays, addresses } from "@/lib/constants";
 
-type EventInfo = {
+export type EventInfo = {
 	day: number;
 	end_string: string | null;
 	end_time: number | null;
@@ -45,12 +45,12 @@ export default function VenueCardContainer({
 	const venueAddress = addresses[venue];
 
 	return (
-		<div className="flex flex-col items-center gap-y-5 mt-5">
-			<h2 className="text-white text-5xl uppercase tracking-wider font-display">
+		<div className="flex flex-col items-center gap-y-4 mt-5">
+			<h2 className="text-5xl uppercase tracking-wider font-display text-white/80 text-center">
 				{venue}
 			</h2>
 			<a
-				className="text-white text-lg text-center uppercase underline"
+				className="text-teal-600 text-lg text-center uppercase underline"
 				href={`https://www.google.com/maps/place/${encodeURIComponent(venueAddress)}`}
 				target="_blank"
 				rel="noopener noreferrer"
@@ -60,7 +60,7 @@ export default function VenueCardContainer({
 			<div className="flex flex-col xl:flex-row gap-6">
 				{dailySchedulesSorted.map(([dayNum, day]) => {
 					return (
-						<ScheduleCard title={festDays[dayNum - 1]} key={dayNum}>
+						<ScheduleCard title={festDays[dayNum]} key={dayNum}>
 							<ul>
 								{day.map((event) => (
 									<li

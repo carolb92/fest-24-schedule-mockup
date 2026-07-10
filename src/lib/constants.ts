@@ -27,8 +27,8 @@ export const addresses: Record<string, string> = {
 		"201 W University Ave, Gainesville, FL 32601",
 };
 
-export const festDays = [
-	"Friday, October 23rd",
-	"Saturday, October 24th",
-	"Sunday, October 25th",
-];
+export const festDays: Record<number, string> = {
+	1: "Friday, October 23rd",
+	2: "Saturday, October 24th",
+	3: "Sunday, October 25th",
+};
