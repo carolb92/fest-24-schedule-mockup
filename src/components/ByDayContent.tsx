@@ -56,7 +56,7 @@ export default function ByDayContent() {
 					{dayDisplay[1]}
 				</span>
 			</h2>
-			<div className="flex flex-col xl:flex-row flex-wrap gap-6 justify-around">
+			<div className="gap-6 grid grid-cols-1 xl:grid-cols-3">
 				{sortedVenueSchedules.map(([venueName, events]) => (
 					<ScheduleCard
 						title={venueName}

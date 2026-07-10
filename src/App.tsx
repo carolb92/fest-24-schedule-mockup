@@ -16,7 +16,6 @@ function App() {
 
 	return (
 		<main className="flex flex-col py-16 px-3 md:px-10 items-center bg-black min-h-screen gap-y-2 w-screen">
-			{/* border border-red-300 */}
 			<h1 className="uppercase text-center mb-3 text-white/80 text-5xl tracking-wider font-light font-headline">
 				the fest 24 schedule
 			</h1>
@@ -24,10 +23,8 @@ function App() {
 			<Tabs
 				defaultValue="venue"
 				className="w-100 max-w-full md:w-full font-headline flex justify-center items-center"
-				//  border border-purple-300
 			>
 				<TabsList variant="line" className="max-w-full">
-					{/* border border-amber-300 */}
 					{tabsList.map(({ value, display, icon: Icon }) => (
 						<TabsTrigger
 							value={value}
