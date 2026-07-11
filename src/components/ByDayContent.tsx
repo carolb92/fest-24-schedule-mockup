@@ -15,11 +15,12 @@ export default function ByDayContent() {
 		eventsByDay.get(event.day).add(event);
 	}
 
+	// seems dumb, rethink
 	const dayKey = Object.keys(festDays).find(
 		(key) => festDays[Number(key)] === dayShown,
 	);
 
-	const daySchedule = eventsByDay.get(Number(dayKey));
+	const daySchedule = eventsByDay.get(Number(dayKey)) ?? new Set();
 
 	//TODO: make a types file and export the EventInfo type to reuse here
 	// group the day's schedule by venue
