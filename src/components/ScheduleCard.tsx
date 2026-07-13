@@ -11,6 +11,8 @@ type ScheduleCardProps = {
 	children: React.ReactNode;
 	footerContent?: string;
 	addressSubtitle?: string;
+	titleLink?: string;
+	memoSubtitle?: string;
 };
 
 export default function ScheduleCard({
@@ -18,12 +20,14 @@ export default function ScheduleCard({
 	children,
 	footerContent,
 	addressSubtitle,
+	titleLink,
+	memoSubtitle,
 }: ScheduleCardProps) {
 	return (
 		<Card className="bg-gray-200 h-full w-88 sm:w-100 lg:w-110 pt-0">
 			<CardHeader className="bg-gray-300 py-5">
 				<CardTitle className="uppercase tracking-wider text-4xl font-display text-center">
-					{title}
+					{titleLink ? <a href={titleLink}>{title}</a> : title}
 				</CardTitle>
 				{addressSubtitle && (
 					<a
@@ -34,6 +38,11 @@ export default function ScheduleCard({
 					>
 						{addressSubtitle}
 					</a>
+				)}
+				{memoSubtitle && (
+					<span className="uppercase tracking-wide text-3xl font-display text-center text-black/60">
+						{`(${memoSubtitle})`}
+					</span>
 				)}
 			</CardHeader>
 			<CardContent>{children}</CardContent>
