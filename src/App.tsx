@@ -3,7 +3,6 @@ import ByDayContent from "@/components/ByDayContent";
 import SearchContent from "@/components/SearchContent";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MapPin, CalendarDays, Guitar } from "lucide-react";
-import { useIsMobile } from "./hooks/use-mobile";
 
 const tabsList = [
 	{ value: "venue", display: "view by venue", icon: MapPin },
@@ -12,8 +11,6 @@ const tabsList = [
 ];
 
 function App() {
-	const isMobile = useIsMobile();
-
 	return (
 		<main className="flex flex-col py-16 px-3 md:px-10 items-center bg-black min-h-screen gap-y-2 w-screen">
 			<h1 className="uppercase text-center mb-3 text-white/80 text-5xl tracking-wider font-light font-headline">
@@ -31,7 +28,7 @@ function App() {
 							className="uppercase text-white/80 data-active:text-teal-300 data-active:border-b-2 data-active:border-b-teal-300 rounded-b-none hover:text-teal-200"
 							key={value}
 						>
-							{!isMobile && <Icon className="size-4" />}
+							<Icon className="size-4 hidden md:block" />
 							<span className="text-xs md:text-base">{display}</span>
 						</TabsTrigger>
 					))}
