@@ -23,10 +23,10 @@ export default function SearchContent() {
 	// 	"venue_id": 40960,
 	// 	"venue_name": "The Lynx"
 	// }
-	const searchResults: EventInfo[] = schedule
+	const searchResults: EventInfo[] = [...schedule]
 		.sort((a, b) => (a.performer ?? "").localeCompare(b.performer ?? ""))
 		.filter((event) =>
-			event.performer?.toLowerCase().includes(searchTerm.trim()),
+			event.performer?.toLowerCase().includes(searchTerm.trim().toLowerCase()),
 		);
 
 	// group by performer, then by day number => that performer's events for the day
