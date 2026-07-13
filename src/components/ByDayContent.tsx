@@ -2,18 +2,18 @@ import { useState } from "react";
 import schedule from "@/data/events.json";
 import Select from "@/components/Select";
 import { festDays, addresses } from "@/lib/constants";
-import { type EventInfo } from "./VenueCardContainer";
+import { type EventInfo } from "@/types";
 import ScheduleCard from "./ScheduleCard";
 import EventList from "./EventList";
 
+const eventsByDay = new Map();
+for (const event of schedule) {
+	if (!eventsByDay.has(event.day)) eventsByDay.set(event.day, new Set());
+	eventsByDay.get(event.day).add(event);
+}
+
 export default function ByDayContent() {
 	const [dayShown, setDayShown] = useState(festDays[1]);
-
-	const eventsByDay = new Map();
-	for (const event of schedule) {
-		if (!eventsByDay.has(event.day)) eventsByDay.set(event.day, new Set());
-		eventsByDay.get(event.day).add(event);
-	}
 
 	// seems dumb, rethink
 	const dayKey = Object.keys(festDays).find(
@@ -22,7 +22,6 @@ export default function ByDayContent() {
 
 	const daySchedule = eventsByDay.get(Number(dayKey)) ?? new Set();
 
-	//TODO: make a types file and export the EventInfo type to reuse here
 	// group the day's schedule by venue
 	const scheduleByVenue = new Map<string, Set<EventInfo>>();
 	for (const event of daySchedule) {

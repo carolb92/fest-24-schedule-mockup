@@ -1,4 +1,4 @@
-import { type EventInfo } from "./VenueCardContainer";
+import { type EventInfo } from "@/types";
 
 type EventListProps = {
 	events: EventInfo[];
