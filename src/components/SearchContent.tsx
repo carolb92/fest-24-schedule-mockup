@@ -75,95 +75,64 @@ export default function SearchContent() {
 				/>
 			</Field>
 			<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-				{Array.from(performerGroups.values()).map((performer) => (
-					<ScheduleCard
-						key={performer.performerId}
-						title={performer.performerName}
-						titleLink={performer.performerUrl}
-					>
-						{Array.from(performer.eventsByDay.entries()).map(
-							([dayNum, eventInfo]) => (
-								<div
-									className="flex flex-col gap-y-4 items-center mb-4"
-									key={dayNum}
-								>
-									<span className="font-headline uppercase text-lg font-bold text-black/80 tracking-wider">
-										{festDays[dayNum]}
-									</span>
-									<ul className="w-[85%]">
-										{eventInfo.map((event) => {
-											const memo = event.memo.toLowerCase().includes("does")
-												? event.memo
-														.split(" ")
-														.toSpliced(0, 1, "COVERING")
-														.join(" ")
-												: event.memo;
-											return (
-												<li
-													key={event.event_id}
-													className="grid grid-cols-2 gap-12 mb-4"
-												>
-													<span>
-														<a
-															href={addresses[event.venue_name]}
-															target="_blank"
-															rel="noopener noreferrer"
-															className="font-bold underline"
-														>
-															{event.venue_name}
-														</a>{" "}
-														<span className="grow">
-															{memo ? `(${memo})` : ""}
+				{performerGroups.size > 0 ? (
+					Array.from(performerGroups.values()).map((performer) => (
+						<ScheduleCard
+							key={performer.performerId}
+							title={performer.performerName}
+							titleLink={performer.performerUrl}
+						>
+							{Array.from(performer.eventsByDay.entries()).map(
+								([dayNum, eventInfo]) => (
+									<div
+										className="flex flex-col gap-y-4 items-center mb-4"
+										key={dayNum}
+									>
+										<span className="font-headline uppercase text-lg font-bold text-black/80 tracking-wider">
+											{festDays[dayNum]}
+										</span>
+										<ul className="w-[85%]">
+											{eventInfo.map((event) => {
+												const memo = event.memo.toLowerCase().includes("does")
+													? event.memo
+															.split(" ")
+															.toSpliced(0, 1, "COVERING")
+															.join(" ")
+													: event.memo;
+												return (
+													<li
+														key={event.event_id}
+														className="grid grid-cols-2 gap-12 mb-4"
+													>
+														<span>
+															<a
+																href={addresses[event.venue_name]}
+																target="_blank"
+																rel="noopener noreferrer"
+																className="font-bold underline"
+															>
+																{event.venue_name}
+															</a>{" "}
+															<span className="grow">
+																{memo ? `(${memo})` : ""}
+															</span>
 														</span>
-													</span>
-													<span className="italic font-light">{`${event.start_string} - ${event.end_string}`}</span>
-												</li>
-											);
-										})}
-									</ul>
-								</div>
-							),
-						)}
-					</ScheduleCard>
-				))}
+														<span className="italic font-light">{`${event.start_string} - ${event.end_string}`}</span>
+													</li>
+												);
+											})}
+										</ul>
+									</div>
+								),
+							)}
+						</ScheduleCard>
+					))
+				) : (
+					<div className="text-white/80 font-headline uppercase font-semibold tracking-wider md:col-span-3">
+						No matching search results
+					</div>
+				)}
 			</div>
 		</div>
 	);
-}
-
-{
-	/* <ScheduleCard
-							title={result.performer}
-							titleLink={result.performer_url ?? ""}
-							memoSubtitle={
-								result.memo !== "OUTSIDE" && result.memo !== "INSIDE"
-									? result.memo
-									: ""
-							}
-							key={result.event_id}
-						>
-							<div className="flex flex-col gap-y-1 items-center justify-center">
-								<span className="font-headline uppercase text-lg font-bold">
-									{day}
-								</span>
-								<div className="grid grid-cols-2 gap-12">
-									<span className="">
-										<a
-											href={venueAddress}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="font-bold underline"
-										>
-											{result.venue_name}
-										</a>{" "}
-										<span className="grow">
-											{result.memo === "OUTSIDE" || result.memo === "INSIDE"
-												? `(${result.memo})`
-												: ""}
-										</span>
-									</span>
-									<span className="italic font-light">{`${result.start_string} - ${result.end_string}`}</span>
-								</div>
-							</div>
-						</ScheduleCard> */
 }
