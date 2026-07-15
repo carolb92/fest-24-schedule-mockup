@@ -45,7 +45,7 @@ export default function SearchContent() {
 			performerGroups.set(performerId, {
 				performerId,
 				performerName: result.performer ?? "",
-				performerUrl: result.performer_url,
+				performerUrl: result.performer_url ?? "",
 				eventsByDay: new Map<number, EventInfo[]>(),
 			});
 		}
@@ -93,6 +93,9 @@ export default function SearchContent() {
 										</span>
 										<ul className="w-[85%]">
 											{eventInfo.map((event) => {
+												// since the memo is rendered next to the venue name on this view (as opposed to the band name),
+												// the "does whatever-cover-set" wording felt out of context
+												// "covering" instead of "does" i think sounds less awkward here?
 												const memo = event.memo.toLowerCase().includes("does")
 													? event.memo
 															.split(" ")
