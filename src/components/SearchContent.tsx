@@ -109,7 +109,7 @@ export default function SearchContent() {
 													>
 														<span>
 															<a
-																href={addresses[event.venue_name]}
+																href={`https://www.google.com/maps/place/${encodeURIComponent(addresses[event.venue_name])}`}
 																target="_blank"
 																rel="noopener noreferrer"
 																className="font-bold underline"
