@@ -6,11 +6,11 @@ import EventList from "./EventList";
 import { festDays, addresses } from "@/lib/constants";
 import { type EventInfo } from "@/types";
 
-const eventsByVenue = new Map();
+const eventsByVenue = new Map<string, EventInfo[]>();
 for (const event of schedule) {
 	if (!eventsByVenue.has(event.venue_name))
-		eventsByVenue.set(event.venue_name, new Set());
-	eventsByVenue.get(event.venue_name).add(event);
+		eventsByVenue.set(event.venue_name, []);
+	eventsByVenue.get(event.venue_name)!.push(event);
 }
 
 const sortedVenueList = Array.from(eventsByVenue.keys()).sort();
@@ -19,19 +19,20 @@ export default function ByVenueContent() {
 	const [venueShown, setVenueShown] = useState(sortedVenueList[1]); // skipping reg as default venue shown
 	const venueSchedule = eventsByVenue.get(venueShown);
 
-	const scheduleByDay = new Map<number, Set<EventInfo>>();
-	for (const event of venueSchedule) {
+	const scheduleByDay = new Map<number, EventInfo[]>();
+
+	for (const event of venueSchedule ?? []) {
 		if (!scheduleByDay.has(event.day)) {
-			scheduleByDay.set(event.day, new Set<EventInfo>());
+			scheduleByDay.set(event.day, []);
 		}
-		scheduleByDay.get(event.day)!.add(event);
+		scheduleByDay.get(event.day)!.push(event);
 	}
 
 	// sort each day desc by start time
 	const dailySchedulesSorted = Array.from(scheduleByDay.entries()).map(
 		([dayNum, events]): [number, EventInfo[]] => [
 			dayNum,
-			Array.from(events).sort((a, b) => b.start_time - a.start_time),
+			events.sort((a, b) => b.start_time - a.start_time),
 		],
 	);
 
@@ -43,7 +44,7 @@ export default function ByVenueContent() {
 				htmlForId="venue-select"
 				selectValue={venueShown}
 				onChange={setVenueShown}
-				optionList={sortedVenueList}
+				optionList={sortedVenueList.map((v) => ({ value: v, label: v }))}
 				labelText="select a venue"
 			/>
 			<div className="flex flex-col items-center gap-y-4 mt-5">

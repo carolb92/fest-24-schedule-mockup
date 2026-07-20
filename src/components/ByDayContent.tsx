@@ -6,40 +6,35 @@ import { type EventInfo } from "@/types";
 import ScheduleCard from "./ScheduleCard";
 import EventList from "./EventList";
 
-const eventsByDay = new Map();
+const eventsByDay = new Map<number, EventInfo[]>();
 for (const event of schedule) {
-	if (!eventsByDay.has(event.day)) eventsByDay.set(event.day, new Set());
-	eventsByDay.get(event.day).add(event);
+	if (!eventsByDay.has(event.day)) eventsByDay.set(event.day, []);
+	eventsByDay.get(event.day)!.push(event);
 }
 
 export default function ByDayContent() {
-	const [dayShown, setDayShown] = useState(festDays[1]);
+	const [dayShown, setDayShown] = useState(1);
 
-	// seems dumb, rethink
-	const dayKey = Object.keys(festDays).find(
-		(key) => festDays[Number(key)] === dayShown,
-	);
-
-	const daySchedule = eventsByDay.get(Number(dayKey)) ?? new Set();
+	const daySchedule = eventsByDay.get(dayShown) ?? [];
 
 	// group the day's schedule by venue
-	const scheduleByVenue = new Map<string, Set<EventInfo>>();
+	const scheduleByVenue = new Map<string, EventInfo[]>();
 	for (const event of daySchedule) {
 		if (!scheduleByVenue.has(event.venue_name)) {
-			scheduleByVenue.set(event.venue_name, new Set());
+			scheduleByVenue.set(event.venue_name, []);
 		}
-		scheduleByVenue.get(event.venue_name)!.add(event);
+		scheduleByVenue.get(event.venue_name)!.push(event);
 	}
 
 	// sort by venue name ascending and events descending
 	const sortedVenueSchedules = Array.from(scheduleByVenue.entries())
 		.map(([venueName, events]): [string, EventInfo[]] => [
 			venueName,
-			Array.from(events).sort((a, b) => b.start_time - a.start_time),
+			events.sort((a, b) => b.start_time - a.start_time),
 		])
 		.sort((a, b) => a[0].localeCompare(b[0]));
 
-	const dayDisplay = dayShown.split(",");
+	const dayDisplay = festDays[dayShown].split(",");
 
 	return (
 		<div className="flex flex-col items-center gap-y-4 mt-5">
@@ -47,7 +42,10 @@ export default function ByDayContent() {
 				htmlForId="day-select"
 				selectValue={dayShown}
 				onChange={setDayShown}
-				optionList={Object.values(festDays)}
+				optionList={Object.entries(festDays).map(([day, label]) => ({
+					value: Number(day),
+					label,
+				}))}
 				labelText="select a day"
 			/>
 			<h2 className="uppercase tracking-wider font-display mt-4 flex flex-col md:flex-row items-center gap-x-1.5">

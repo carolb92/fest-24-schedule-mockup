@@ -1,18 +1,18 @@
-type SelectProps = {
+type SelectProps<T extends string | number> = {
 	htmlForId: string;
-	selectValue: string;
-	onChange: React.Dispatch<React.SetStateAction<string>>;
-	optionList: string[];
+	selectValue: T;
+	onChange: React.Dispatch<React.SetStateAction<T>>;
+	optionList: { value: T; label: string }[];
 	labelText: string;
 };
 
-export default function Select({
+export default function Select<T extends string | number>({
 	htmlForId,
 	selectValue,
 	onChange,
 	optionList,
 	labelText,
-}: SelectProps) {
+}: SelectProps<T>) {
 	return (
 		<div className="flex flex-col">
 			<label
@@ -23,13 +23,18 @@ export default function Select({
 			</label>
 			<select
 				value={selectValue}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={(e) => {
+					const match = optionList.find(
+						(o) => String(o.value) === e.target.value,
+					);
+					if (match) onChange(match.value);
+				}}
 				id={htmlForId}
 				className="bg-white rounded-sm w-80 truncate"
 			>
 				{optionList.map((o) => (
-					<option value={o} key={o}>
-						{o}
+					<option value={o.value} key={o.value}>
+						{o.label}
 					</option>
 				))}
 			</select>
